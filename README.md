@@ -12,7 +12,15 @@ MAP阶段：将数据源的VALUE作为key输出，VALUE随意<KEY,VALUE>
 
 REDUCE阶段：因为是去除重复，<KEY,<VALUE,VALUE,VALUE...>>, 将以上的数据源只保留KEY值进行输出即可。
 
-#Sort
+# Sort
 MAP阶段：将数据进行读取，输出key值为IntWritable,hadoop会对其进行排序。输出的value为1.目的是出现重复的数字。
 REDUCE阶段： 读取value-list，有几个1输出几次，定义全局变量lineNumber，每一次context.write(key,value),lineNumber加一。
 有个疑问是  job.setCombinerClass(),不设置，如果使用竟然会出问题。我还没有解决这件事。等我多学学回头解决这个问题。
+
+# STJoin单表连接
+
+Map阶段：利用+ -将数据放入map中，-代表正向。+代表逆向。可以这样理解：</br>
+child parent grandparent</br>
+  +     key   -</br>
+将key值代表parent，+value是child -value是grandparent。就可以判断爷孙关系。
+reduce阶段：根据+ —将child和parent放入相应容器，然后进行组合，输出爷孙关系。
