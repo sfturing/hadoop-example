@@ -20,7 +20,13 @@ REDUCE阶段： 读取value-list，有几个1输出几次，定义全局变量li
 # STJoin单表连接
 
 Map阶段：利用+ -将数据放入map中，-代表正向。+代表逆向。可以这样理解：</br>
-child parent grandparent</br>
-  +     key   -</br>
+child  parent  grandparent     </br>
+  +value   key     -value       </br>
 将key值代表parent，+value是child -value是grandparent。就可以判断爷孙关系。
 reduce阶段：根据+ —将child和parent放入相应容器，然后进行组合，输出爷孙关系。
+
+# 多表连接
+
+Map阶段： 读取文件根据id起始位置判断是是表1还是表2,将表内容放入map集合并做标记。id是连接的字段，作为key，通过value加判断标志区分不同的表。
+
+reduce： 将两个表做笛卡尔积，得到最终结果。
